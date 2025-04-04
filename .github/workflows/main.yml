@@ -24,4 +24,4 @@ jobs:
             });
             console.log(response.status);
         env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Ensure this token has the right permissions
