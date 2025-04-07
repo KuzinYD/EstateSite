@@ -4,15 +4,15 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:  # Allow manual triggering of the workflow
+  workflow_dispatch: # Allow manual triggering of the workflow
     inputs:
       target_branch:
-        description: 'Branch to trigger the workflow on'
+        description: "Branch to trigger the workflow on"
         required: false
-        default: 'main'
+        default: "main"
 
 permissions:
-  contents: write  # Explicitly grant write permissions to the workflow
+  contents: write # Explicitly grant write permissions to the workflow
 
 jobs:
   trigger-external-tests:
@@ -25,4 +25,15 @@ jobs:
           script: |
             try {
               const response = await github.rest.repos.createDispatchEvent({
-                owner: 'KuzinYD',  //
+                owner: 'KuzinYD',
+                repo: 'EstateSite',
+                event_type: 'trigger-tests',
+                client_payload: {
+                  ref: '${{ github.ref }}',
+                  sha: '${{ github.sha }}'
+                }
+              });
+              console.log('Dispatch event response:', response);
+            } catch (error) {
+              core.setFailed(`Error triggering dispatch event: ${error.message}`);
+            }
