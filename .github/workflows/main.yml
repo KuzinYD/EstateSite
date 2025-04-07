@@ -4,6 +4,15 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:  # Allow manual triggering of the workflow
+    inputs:
+      target_branch:
+        description: 'Branch to trigger the workflow on'
+        required: false
+        default: 'main'
+
+permissions:
+  contents: write  # Explicitly grant write permissions to the workflow
 
 jobs:
   trigger-external-tests:
@@ -14,14 +23,6 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const response = await github.rest.repos.createDispatchEvent({
-              owner: 'KuzinYD',  // Replace with your GitHub username
-              repo: 'PlaywrightTests',  // Name of the external repository
-              event_type: 'run-tests',  // Custom event type
-              client_payload: {
-                branch: 'main'          // Optional: Specify branch or other data
-              }
-            });
-            console.log(response.status);
-        env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Ensure this token has the right permissions
+            try {
+              const response = await github.rest.repos.createDispatchEvent({
+                owner: 'KuzinYD',  //
