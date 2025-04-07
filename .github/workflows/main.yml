@@ -1,39 +1,18 @@
-name: Trigger Tests
+name: Trigger PlayWrightTests Workflow
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch: # Allow manual triggering of the workflow
-    inputs:
-      target_branch:
-        description: "Branch to trigger the workflow on"
-        required: false
-        default: "main"
-
-permissions:
-  contents: write # Explicitly grant write permissions to the workflow
 
 jobs:
-  trigger-external-tests:
+  trigger:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Trigger repository_dispatch event
-        uses: actions/github-script@v6
-        with:
-          script: |
-            try {
-              const response = await github.rest.repos.createDispatchEvent({
-                owner: 'KuzinYD', // Replace with the owner of the PlaywrightTests repository
-                repo: 'PlaywrightTests', // Target repository name
-                event_type: 'trigger-tests',
-                client_payload: {
-                  ref: '${{ github.ref }}',
-                  sha: '${{ github.sha }}'
-                }
-              });
-              console.log('Dispatch event response:', response);
-            } catch (error) {
-              core.setFailed(`Error triggering dispatch event: ${error.message}`);
-            }
+      - name: Trigger workflow in Repo 2
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
+            https://api.github.com/repos/KuzinYD/PlaywrightTests/actions/workflows/trigger-tests.yml/dispatches \
+            -d '{"ref":"main"}'
