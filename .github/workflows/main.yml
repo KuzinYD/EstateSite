@@ -25,8 +25,8 @@ jobs:
           script: |
             try {
               const response = await github.rest.repos.createDispatchEvent({
-                owner: 'KuzinYD',
-                repo: 'EstateSite',
+                owner: 'KuzinYD', // Replace with the owner of the PlaywrightTests repository
+                repo: 'PlaywrightTests', // Target repository name
                 event_type: 'trigger-tests',
                 client_payload: {
                   ref: '${{ github.ref }}',
