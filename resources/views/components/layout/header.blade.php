@@ -1,4 +1,4 @@
-@php($mapView = count(request()->segments()) === 2 && !strpos(request()->fullUrl(), 'insights'))
+@php($mapView = count(request()->segments()) === 2 && !str_contains(request()->fullUrl(), 'insights'))
 <!-- Desktop -->
 <header
     class="header absolute top-0 left-0 w-full z-[999] uk-visible@m"
@@ -17,7 +17,7 @@
                 <div class="animLeft">
                     <a href="{{ route('pages.home.index') }}">
                         <img
-                            class="w-[260px] md:w-[180px] lg:w-[200px] xl:w-[165px] xxl:w-[230px] uk-animation-fade"
+                            class="w-[260px] md:w-[140px] lg:w-[200px] xl:w-[165px] xxl:w-[230px] uk-animation-fade"
                             src="{{ $mapView ? asset('assets/images/icons/logo-primary.svg') : asset('assets/images/icons/logo-white.svg') }}"
                             alt="Logo"
                         />
@@ -118,8 +118,8 @@
                         <!-- Locale Switcher -->
 
                         <li>
-                            <ul class="{{ $mapView ? '' : 'bg-opacity-10' }} flex justify-center items-center rounded-[100px] bg-white relative w-[60px]">
-                                <li class="w-full xxl:w-1/2 flex justify-around font-black md:text-sm xl:text-base xxl:text-lg">
+                            <ul class="{{ $mapView ? '' : 'bg-opacity-10' }} border-rounded bg-white relative md:w-[80px] lg:w-[120px]">
+                                <li class="flex justify-around items-center w-full font-black md:text-sm xl:text-base xxl:text-lg">
                                     <a href="#">
                                         {{ config()->get('locales')[app()->getLocale()] }}
                                     </a>
@@ -142,8 +142,8 @@
                                             @endforeach
                                         </ul>
                                     </div>
-                                    <a href="#" class="hidden">
-                                        USD
+                                    <a href="#">
+                                        {{ Helper::getClientCurrency() }}
                                     </a>
                                 </li>
                                 <li class="hidden">
@@ -263,27 +263,52 @@
                                 </ul>
                             </li>
                             <li class="p-0 sm:hidden relative">
-                                <form
-                                    id="mobileSearch"
-                                    action="{{ route('pages.listing.index') }}"
-                                    autocomplete="off"
-                                    @keydown.enter="$event.target.closest('form').submit()"
-                                >
-                                    <input
-                                        id="name"
-                                        type="text"
-                                        name="title"
-                                        placeholder="Search..."
-                                        class="w-full border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500 py-2 placeholder-secondary"
-                                    />
-                                    <button
-                                        class="absolute top-1 right-1 text-3xl bg-transparent border-none outline-none"
-                                        type="button"
-                                        uk-toggle="target: #searchModal"
+                                @php($isInsightsPage = str_contains(request()->fullUrl(), 'insights'))
+                                @if ($isInsightsPage)
+                                    <form
+                                        id="mobileSearch"
+                                        action="{{ route('pages.insight.index') }}"
+                                        autocomplete="off"
+                                        @keydown.enter="$event.target.closest('form').submit()"
                                     >
-                                        +
-                                    </button>
-                                </form>
+                                        <input
+                                            id="title"
+                                            type="text"
+                                            name="title"
+                                            placeholder="Search..."
+                                            class="w-full border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500 py-2 placeholder-secondary"
+                                        />
+                                        <button
+                                            class="absolute top-1 right-1 text-3xl bg-transparent border-none outline-none"
+                                            type="button"
+                                            uk-toggle="target: #insightFilterModal"
+                                        >
+                                            +
+                                        </button>
+                                    </form>
+                                @else
+                                    <form
+                                        id="mobileSearch"
+                                        action="{{ route('pages.listing.index') }}"
+                                        autocomplete="off"
+                                        @keydown.enter="$event.target.closest('form').submit()"
+                                    >
+                                        <input
+                                            id="title"
+                                            type="text"
+                                            name="title"
+                                            placeholder="Search..."
+                                            class="w-full border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500 py-2 placeholder-secondary"
+                                        />
+                                        <button
+                                            class="absolute top-1 right-1 text-3xl bg-transparent border-none outline-none"
+                                            type="button"
+                                            uk-toggle="target: #listingFilterModal"
+                                        >
+                                            +
+                                        </button>
+                                    </form>
+                                @endif
                             </li>
                         </ul>
                     </div>

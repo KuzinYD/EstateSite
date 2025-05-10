@@ -203,6 +203,14 @@ class Hotel extends Model
         return $query;
     }
 
+    public function scopeFilterByIeVerified(Builder $query, $ieVerified): Builder
+    {
+        if (!is_null($ieVerified)) {
+            $ieVerified = filter_var($ieVerified, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            $query->where('ie_verified', $ieVerified);
+        }
+        return $query;
+    }
 
     public function author(): BelongsTo
     {
@@ -259,15 +267,10 @@ class Hotel extends Model
         return number_format($this->area, 2);
     }
 
-    public function getFormattedPriceAttribute(): string
-    {
-        return number_format($this->price, 2, '.', ',');
-    }
-
     public function getIsLikedAttribute(): bool
     {
         $userId = auth()->id();
-        $ipAddress = request()->ip();
+        $ipAddress = request()->getClientIp();
 
         return $this->likes()
             ->when($userId, function ($query) use ($userId) {

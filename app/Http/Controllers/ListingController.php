@@ -161,6 +161,7 @@ class ListingController extends Controller
             ->filterByTags($request->input('tags'))
             ->filterByFeatures($request->input('features'))
             ->filterByLocations($request->input('locations'))
+            ->filterByIeVerified($request->input('ie_verified'))
             ->active();
     }
 
@@ -189,7 +190,7 @@ class ListingController extends Controller
         if ($request->has('viewType') && $request->get('viewType') === 'liked') {
             $hotelsQuery->whereHas('likes', function ($query) {
                 $userId = auth()->id();
-                $ipAddress = request()->ip();
+                $ipAddress = request()->getClientIp();
 
                 $query->when($userId, function ($query) use ($userId) {
                     $query->where('liked_by', $userId);
