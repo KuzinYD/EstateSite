@@ -35,7 +35,7 @@
                             onclick="document.querySelector('.uk-slider-items a')?.click()"
                         />
                     </div>
-                    <div class="absolute border-rounded inset-0 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+                    <div class="absolute border-rounded inset-0 bg-gradient-to-t from-black/70 to-transparent pointer-events-none"></div>
                     <!-- Image Top -->
                     <div class="relative flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0 pointer-events-auto">
                         @if ($hotel->tags)
@@ -89,7 +89,7 @@
                     tabindex="-1"
                 >
                     <div
-                        class="objectSlider uk-grid-small uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m"
+                        class="objectSlider uk-grid uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m"
                         uk-lightbox="animation: fade"
                     >
                         @if ($hotel->gallery)
@@ -189,19 +189,39 @@
                         {!! $hotel->description !!}
                     @endif
                 </div>
+            </div>
 
-                <div class="mt-4 md:mt-6 lg:mt-8 xl:mt-10 px-4">
-                    <dl>
-                        <dt class="collapse-title text-sm">IE Score</dt>
-                        <dd class="flex items-center mb-3">
-                            <div class="w-full bg-gray-200 me-2 h-2.5 border-rounded">
-                                <div class="bg-primary h-2.5 border-rounded" style="width: {{ $hotel->ie_score }}%"></div>
+            <div class="mt-4 md:mt-6 lg:mt-8 xl:mt-10 px-4">
+                <div class="rounded-full bg-primary opacity-90 flex items-center h-[70px]">
+                    <div class="w-[15%] flex justify-center space-x-2">
+                        <img
+                            src="{{ asset('assets/images/icons/logo-icon-white.svg') }}"
+                            alt="Logo White"
+                            class="w-5"
+                        />
+                        <span class="collapse-title text-sm text-center text-white">
+                             IE Score
+                        </span>
+                    </div>
+                    <div class="w-[65%]">
+                        <div class="w-full h-[40px] bg-white rounded-full">
+                            <div class="h-[40px] bg-gradient-to-r from-primary to-[#7DA2BD] rounded-full border border-white" style="width: 45%">
+                                <div class="h-full flex justify-end items-center pr-4">
+                                    <span class="collapse-title text-white">
+                                        45
+                                    </span>
+                                </div>
                             </div>
-                            <span class="collapse-title text-sm">{{ $hotel->ie_score }}</span>
-                        </dd>
-                    </dl>
+                        </div>
+                    </div>
+                    <div class="w-[20%] collapse-title text-sm text-center text-white">
+                        <a href="{{ url('/insights/about-ie-score') }}" class="underline hover:text-secondary">
+                            Learn More
+                        </a>
+                    </div>
                 </div>
             </div>
+
             <!-- Features -->
             @if ($hotel->features)
                 <div
