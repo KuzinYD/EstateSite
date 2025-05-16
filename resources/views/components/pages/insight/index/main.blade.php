@@ -3,13 +3,14 @@
 ])
 
 @if ($latestTopics)
-    <main class="main-section relative p-2">
+    <main class="main-section relative">
         <div class="swiper insights-slider">
             <div class="swiper-wrapper">
                 @foreach($latestTopics as $topic)
                     <div class="swiper-slide">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-black/50"></div>
                         <img
-                            class="main-section-image"
+                            class="w-full h-[250px] lg:h-[500px] xl:h-[750px]"
                             src="{{ ImagePathResolver::resolve($topic->image) ?? asset('assets/images/insights/index/main-bg.png') }}"
                             alt="{{ $topic->title }}"
                         />
@@ -20,7 +21,7 @@
                                         href="{{ route('pages.insight.show', ['slug' => $topic->slug]) }}"
                                         class="group"
                                     >
-                                        <h1 class="main-title animLeft mt-2 lg:mt-10 group-hover:text-primary">
+                                        <h1 class="main-title-insight animLeft mt-2 lg:mt-10 group-hover:text-primary">
                                             {{ $topic->title }}
                                         </h1>
                                     </a>
