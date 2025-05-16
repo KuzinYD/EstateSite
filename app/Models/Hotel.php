@@ -158,10 +158,10 @@ class Hotel extends Model
     public function scopeFilterByTypes(Builder $query, $types): Builder
     {
         if (!empty($types)) {
-            $typeIds = explode(',', $types);
+            $typesArray = explode(',', $types);
 
-            $query->whereHas('types', function ($q) use ($typeIds) {
-                $q->whereIn('types.id', $typeIds);
+            $query->whereHas('types', function ($q) use ($typesArray) {
+                $q->whereIn('types.id', $typesArray);
             });
         }
         return $query;
@@ -170,10 +170,10 @@ class Hotel extends Model
     public function scopeFilterByTags(Builder $query, $tags): Builder
     {
         if (!empty($tags)) {
-            $tagIds = explode(',', $tags);
+            $tagsArray = explode(',', $tags);
 
-            $query->whereHas('tags', function ($q) use ($tagIds) {
-                $q->whereIn('tags.id', $tagIds);
+            $query->whereHas('tags', function ($q) use ($tagsArray) {
+                $q->whereIn('tags.id', $tagsArray);
             });
         }
         return $query;
@@ -182,10 +182,10 @@ class Hotel extends Model
     public function scopeFilterByLocations(Builder $query, $locations): Builder
     {
         if (!empty($locations)) {
-            $locationIds = explode(',', $locations);
+            $locationsArray = explode(',', $locations);
 
-            $query->whereHas('locations', function ($q) use ($locationIds) {
-                $q->whereIn('locations.id', $locationIds);
+            $query->whereHas('locations', function ($q) use ($locationsArray) {
+                $q->whereIn('locations.id', $locationsArray);
             });
         }
         return $query;
@@ -194,12 +194,11 @@ class Hotel extends Model
     public function scopeFilterByFeatures(Builder $query, $features): Builder
     {
         if (!empty($features)) {
-            $featureIds = explode(',', $features);
-            $count = count($featureIds);
+            $featuresArray = explode(',', $features);
 
-            $query->whereHas('features', function ($q) use ($featureIds) {
-                $q->whereIn('features.id', $featureIds);
-            }, '=', $count);
+            $query->whereHas('features', function ($q) use ($featuresArray) {
+                $q->whereIn('features.id', $featuresArray);
+            });
         }
         return $query;
     }

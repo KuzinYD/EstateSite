@@ -24,7 +24,9 @@ class ListingController extends Controller
         $perPage = self::PAGINATION_PARAMS[$viewType];
 
         $hotels = $hotelsQuery->paginate($perPage);
-        $latestHotels = $hotelsQuery->orderBy('created_at', 'desc')
+        $latestHotels = $hotelsQuery->where('main_image_url', '!=', '')
+            ->orWhere('main_image', '!=', '')
+            ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
 

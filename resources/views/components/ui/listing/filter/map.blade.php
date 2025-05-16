@@ -10,24 +10,8 @@
     <h3 class="modal-subtitle text-primary">
         {{ __('general.filter_popup_location') }}
         <span class="font-bold">|</span>
-        <span
-            class="font-normal cursor-pointer hover:text-red-500 hover:font-black"
-            @click="resetLocations"
-        >
-            x
-        </span>
-        <span>
-            <template
-                x-for="(name, index) in selectedLocationNames()"
-                :key="index"
-            >
-                <span
-                    class="cursor-pointer hover:text-red-500"
-                    @click="removeLocation(selectedLocations.map(l => l.id)[index])"
-                    x-text="name + (index < selectedLocationNames().length - 1 ? ', ' : '')"
-                ></span>
-            </template>
-        </span>
+        <span class="font-normal cursor-pointer hover:text-red-500 hover:font-black" @click="resetLocations">x</span>
+        <span x-text="selectedLocationNames().join(', ')"></span>
     </h3>
 
     <div id="map" class="border-rounded w-full mt-4 sm:mt-6 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px]"></div>
@@ -40,30 +24,17 @@
     />
 
     <div class="mt-6 sm:mt-8 md:mt-10 locations uk-child-width-1-2 uk-child-width-auto@s uk-grid-small" uk-grid>
-        <template x-for="(location, index) in visibleLocations" :key="location.id">
+        @foreach($locations as $location)
             <div>
                 <div
                     class="location flex justify-center items-center cursor-pointer modal-subtitle shadow-card border-rounded p-2 sm:p-4 md:px-6 md:py-8"
-                    :class="isLocationSelected(location.id) ? 'bg-primary text-white' : 'bg-white text-primary'"
-                    @click="toggleLocation(location.id, location.latitude, location.longitude, location.name)"
+                    :class="isLocationSelected('{{ $location->id }}') ? 'bg-primary text-white' : 'bg-white text-primary'"
+                    @click="toggleLocation('{{ $location->id }}', '{{ $location->latitude }}', '{{ $location->longitude }}', '{{ $location->name }}')"
                 >
-                    <span x-text="limitText(location.name[locale], 12)"></span>
+                    {{ Str::limit($location->name, 12) }}
                 </div>
             </div>
-        </template>
-    </div>
-
-    <div
-        class="w-full flex justify-center mt-4 md:mt-6 xl:mt-10"
-    >
-        <button
-            type="button"
-            @click.prevent="toggleShowMore"
-            class="bg-white text-primary rounded-[100px] modal-subtitle py-5 w-full hover:text-white hover:bg-primary"
-            x-text="showingAll ? '{{ __('general.show_less') }}' : '{{ __('general.show_more') }}'"
-            x-show="allLocations.length > defaultVisibleCount"
-        >
-        </button>
+        @endforeach
     </div>
 </div>
 
@@ -75,12 +46,6 @@
             markers: {},
             selectedLocations: [],
             allLocations: @json($locations),
-            defaultVisibleCount: 12,
-            showingAll: false,
-
-            get visibleLocations() {
-                return this.showingAll ? this.allLocations : this.allLocations.slice(0, this.defaultVisibleCount);
-            },
 
             initMap() {
                 this.map = L.map('map', {
@@ -183,10 +148,6 @@
                 return this.selectedLocations.some(l => l.id == id);
             },
 
-            removeLocation(id) {
-                this.selectedLocations = this.selectedLocations.filter(l => l.id !== id);
-            },
-
             resetLocations() {
                 Object.values(this.markers).forEach(marker => {
                     this.map.removeLayer(marker);
@@ -200,14 +161,6 @@
                     const location = this.allLocations.find(l => l.id == id);
                     return location ? location.name[this.locale] : '';
                 });
-            },
-
-            toggleShowMore() {
-                this.showingAll = !this.showingAll;
-            },
-
-            limitText(text, length) {
-                return text.length > length ? text.substring(0, length) + '...' : text;
             },
         };
     }

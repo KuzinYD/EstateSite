@@ -1,4 +1,4 @@
-<main class="main-section relative">
+<main class="main-section relative p-2">
     <img
         class="main-section-image"
         src="{{ asset('assets/images/club/main-bg.png') }}"
