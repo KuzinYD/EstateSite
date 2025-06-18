@@ -1,7 +1,0 @@
-<?php
-
-return [
-    'Tags' => 'Tags',
-];
-
-
