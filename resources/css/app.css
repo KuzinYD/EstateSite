@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    /* Containers */
+    .main-section {
+        @apply px-5 py-5;
+    }
+
+    .main-section-image {
+        @apply border-rounded object-cover sm:object-contain h-[250px] sm:h-auto;
+    }
+
+    .section {
+        @apply pt-16 md:pt-24;
+    }
+
+    .container {
+        @apply mx-auto px-5 sm:px-10 w-full xl:w-[72vw];
+    }
+
+    /* Buttons */
+    .main-button {
+        @apply bg-white/10 text-white uppercase border-rounded font-black inline-flex items-center text-sm xl:text-[0.9rem] space-x-2 px-[22px] py-1 lg:py-[12px];
+    }
+
+    .secondary-button {
+        @apply bg-white/10 text-white uppercase border-rounded font-black inline-flex items-center text-sm xl:text-[0.9rem] space-x-2;
+    }
+
+    .primary-button {
+        @apply bg-primary text-[#F4F4F4] uppercase border-rounded font-black px-2 py-2 md:px-5 md:py-3;
+    }
+
+    .white-button {
+        @apply bg-white text-primary uppercase border-rounded font-black px-2 py-2 md:px-5 md:py-3;
+    }
+
+    .card-tag-button {
+        @apply text-[#F4F4F4] uppercase border-rounded text-xs font-black sm:font-black px-2 py-2 sm:px-4;
+    }
+
+    .card-tag-button-bg {
+        background-color: var(--tag-bg-color, rgba(255, 255, 255, 0.1));
+    }
+
+    .filter-type-bg {
+        background-color: var(--filter-type-bg-color, rgba(255, 255, 255, 0.1));
+    }
+
+    .topic-categories-bg {
+        background-color: var(
+            --topic-categories-bg-color,
+            rgba(255, 255, 255, 0.1)
+        );
+    }
+
+    /* Titles */
+    .main-title {
+        @apply text-white uppercase font-bold lg:font-black text-lg sm:text-xl md:text-2xl lg:text-4xl xl:text-5xl xl:leading-[4rem];
+    }
+
+    .main-title-insight {
+        @apply text-white uppercase font-bold lg:font-black text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl;
+    }
+
+    .section-title {
+        @apply leading-none text-primary uppercase mr-4 text-2xl font-bold xl:text-[35px] xl:font-black;
+    }
+
+    .section-title-white {
+        @apply text-white uppercase font-bold xl:font-black text-2xl xl:text-[35px];
+    }
+
+    .second-title {
+        @apply text-white uppercase font-bold text-lg md:text-xl xl:text-2xl;
+    }
+
+    .collapse-title {
+        @apply text-primary uppercase text-xs sm:text-sm md:text-lg xl:text-2xl sm:font-bold xl:font-black;
+    }
+
+    .collapse-title-object-description {
+        @apply text-primary uppercase text-xs sm:text-sm md:text-base sm:font-bold xl:font-black;
+    }
+
+    .modal-subtitle {
+        @apply text-primary uppercase text-sm sm:text-base md:text-lg font-bold xl:font-black;
+    }
+
+    /* Background Colors */
+    .bg-gradient-100 {
+        @apply bg-gradient-to-b from-black/100 to-black/0;
+    }
+
+    .bg-gradient-50 {
+        @apply bg-gradient-to-b from-black/50 to-black/0;
+    }
+
+    .bg-color-1 {
+        @apply bg-[#69A8A4];
+    }
+
+    .bg-color-2 {
+        @apply bg-[#5A6BC9];
+    }
+
+    .bg-color-3 {
+        @apply bg-[#584B7D];
+    }
+
+    .bg-color-4 {
+        @apply bg-[#767E94];
+    }
+
+    /* Borders */
+    .border-rounded {
+        @apply rounded-[25px];
+    }
+
+    /* Miscellaneous */
+    .absolute-centralize {
+        @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+    }
+}
