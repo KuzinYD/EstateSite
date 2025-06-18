@@ -36,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->runningInConsole() || !\Schema::hasTable('locations')) {
+            return;
+        }
+
         $locations = Location::all();
         $types = Type::all();
         $tags = Tag::all();
